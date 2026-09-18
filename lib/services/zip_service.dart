@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:archive/archive.dart';
+
 import '../models/document.dart';
 import '../models/readiness.dart';
 import '../models/service.dart';
 import '../utils/format.dart';
-import '../utils/zip_writer.dart';
 
 class ZipPackResult {
   const ZipPackResult({
@@ -31,10 +32,6 @@ class ZipPackResult {
 
 /// Prepares the "Download Required Documents" ZIP — all currently available
 /// documents for one service as a single archive.
-///
-/// Future implementation: files stream from Firebase Storage / object
-/// storage; ZIP assembly stays server-side. V1 writes a real archive into
-/// the app's temp directory using the dependency-free [ZipWriter].
 abstract class ZipService {
   Future<ZipPackResult> buildServicePack({
     required GovService service,
@@ -51,17 +48,35 @@ class LocalZipService implements ZipService {
     required ReadinessSummary summary,
   }) async {
     final docs = summary.zipDocuments;
-    final entries = <ZipEntry>[];
+    final archive = Archive();
+    final includedNames = <String>[];
 
     var index = 1;
     for (final doc in docs) {
-      final base = '${index.toString().padLeft(2, '0')}_${_fileBase(doc.type)}';
-      entries.add(ZipEntry('$base.txt', _docContent(doc)));
+      final fileBase = '${index.toString().padLeft(2, '0')}_${_fileBase(doc.type)}';
+      
+      if (doc.filePath != null && File(doc.filePath!).existsSync()) {
+        final sourceFile = File(doc.filePath!);
+        final bytes = await sourceFile.readAsBytes();
+        final ext = doc.filePath!.contains('.') ? doc.filePath!.split('.').last.toLowerCase() : 'pdf';
+        final zipPath = '$fileBase.$ext';
+        archive.addFile(ArchiveFile(zipPath, bytes.length, bytes));
+        includedNames.add(zipPath);
+      } else {
+        final content = _docContent(doc);
+        final zipPath = '$fileBase.txt';
+        archive.addFile(ArchiveFile(zipPath, content.length, content));
+        includedNames.add(zipPath);
+      }
       index++;
     }
-    entries.add(ZipEntry('_SevaSetu_README.txt', _manifest(service, summary)));
 
-    final bytes = ZipWriter.write(entries);
+    final readme = _manifest(service, summary);
+    archive.addFile(ArchiveFile('_SevaSetu_README.txt', readme.length, readme));
+    includedNames.add('_SevaSetu_README.txt');
+
+    final zipData = ZipEncoder().encode(archive);
+    final bytes = Uint8List.fromList(zipData);
 
     final dir = Directory('${Directory.systemTemp.path}/sevasetu_zips');
     if (!dir.existsSync()) dir.createSync(recursive: true);
@@ -74,7 +89,7 @@ class LocalZipService implements ZipService {
       fileName: fileName,
       filePath: file.path,
       sizeBytes: bytes.length,
-      includedFiles: [for (final e in entries) e.name],
+      includedFiles: includedNames,
       missingDocuments: [
         for (final c in summary.missingChecks) c.requirement.type.title,
       ],

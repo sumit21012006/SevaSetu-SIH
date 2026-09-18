@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
 
 import '../core/app_constants.dart';
 import '../models/readiness.dart';
@@ -425,23 +426,21 @@ void showZipResultSheet(
             Row(
               children: [
                 Expanded(
-                  child: FilledButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Done'),
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      OpenFilex.open(result.filePath);
+                    },
+                    icon: const Icon(Icons.folder_zip_rounded, size: 18),
+                    label: const Text('Open ZIP Archive'),
                   ),
                 ),
-                if (onViewMissing != null) ...[
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        onViewMissing();
-                      },
-                      child: const Text('Missing Documents'),
-                    ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Close'),
                   ),
-                ],
+                ),
               ],
             ),
           ],

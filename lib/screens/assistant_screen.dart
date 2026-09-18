@@ -67,7 +67,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
 
     final steps = state.aiProcessingSteps;
     for (var i = 0; i < steps.length; i++) {
-      await Future<void>.delayed(const Duration(milliseconds: 520));
+      await Future<void>.delayed(const Duration(milliseconds: 120));
       if (!mounted) return;
       setState(() => _step = i + 1);
     }

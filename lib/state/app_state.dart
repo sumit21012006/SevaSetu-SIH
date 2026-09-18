@@ -178,28 +178,27 @@ class AppState extends ChangeNotifier {
 
   Future<CitizenDocument> uploadDocument(
     DocumentType type,
-    String sourceLabel,
-  ) async {
-    final doc = await _documents.upload(type, sourceLabel);
+    String sourceLabel, [
+    String? filePath,
+  ]) async {
+    final doc = await _documents.upload(type, sourceLabel, filePath: filePath);
     notifyListeners();
     return doc;
   }
 
   Future<CitizenDocument> replaceDocument(
     CitizenDocument existing,
-    String sourceLabel,
-  ) async {
-    final doc = await _documents.replace(existing, sourceLabel);
+    String sourceLabel, [
+    String? filePath,
+  ]) async {
+    final doc = await _documents.replace(existing, sourceLabel, filePath: filePath);
     notifyListeners();
     return doc;
   }
 
   Future<ValidityReport> checkValidity(CitizenDocument document) async {
     final report = await _documents.checkValidity(document);
-    if (report.status == DocStatus.verified &&
-        document.status == DocStatus.verificationRequired) {
-      notifyListeners();
-    }
+    notifyListeners();
     return report;
   }
 

@@ -55,7 +55,7 @@ class TabHeader extends StatelessWidget {
             ],
           ),
         ),
-        ?extra,
+        if (extra != null) extra!,
         HeaderActions(
           light: light,
           onNotifications: () => Navigator.of(context).push(

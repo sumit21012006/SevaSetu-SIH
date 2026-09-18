@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
 
 import '../core/app_constants.dart';
 import '../core/enum_ui.dart';
@@ -50,9 +53,9 @@ class DocumentDetailScreen extends StatelessWidget {
           AppSpacing.xxl + 32,
         ),
         children: [
-          // ---- Document preview placeholder ----
+          // ---- Document preview container ----
           Container(
-            height: 200,
+            height: 220,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -62,43 +65,19 @@ class DocumentDetailScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
               border: Border.all(color: color.withValues(alpha: 0.3)),
             ),
-            child: Stack(
-              children: [
-                Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        documentTypeIcon(doc.type),
-                        size: 54,
-                        color: color.withValues(alpha: 0.75),
-                      ),
-                      const SizedBox(height: AppSpacing.sm + 2),
-                      Text(
-                        doc.title,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.ink,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Document preview',
-                        style: TextStyle(
-                          fontSize: 11.5,
-                          color: color.withValues(alpha: 0.8),
-                        ),
-                      ),
-                    ],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  _buildPreviewWidget(doc, color),
+                  Positioned(
+                    right: 12,
+                    top: 12,
+                    child: StatusPill(status: doc.status, compact: true),
                   ),
-                ),
-                Positioned(
-                  right: 12,
-                  top: 12,
-                  child: StatusPill(status: doc.status, compact: true),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           const Gap(AppSpacing.lg),
@@ -315,8 +294,14 @@ class DocumentDetailScreen extends StatelessWidget {
   }
 
   void _viewPreview(BuildContext context, CitizenDocument doc) {
+    if (doc.filePath != null && File(doc.filePath!).existsSync()) {
+      OpenFilex.open(doc.filePath!);
+      return;
+    }
+    final color = categoryColor(doc.type.category);
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       builder: (sheetContext) {
         return SafeArea(
           child: Padding(
@@ -330,34 +315,103 @@ class DocumentDetailScreen extends StatelessWidget {
                     DocIcon(type: doc.type),
                     const SizedBox(width: AppSpacing.md),
                     Expanded(
-                      child: Text(
-                        doc.title,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.ink,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            doc.title,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.ink,
+                            ),
+                          ),
+                          Text(
+                            doc.type.category.label,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.inkFaint,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     StatusPill(status: doc.status, compact: true),
                   ],
                 ),
-                const SizedBox(height: AppSpacing.xl),
-                Text(
-                  AppBrand.demoNote,
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    color: AppColors.inkFaint,
-                    height: 1.5,
+                const SizedBox(height: AppSpacing.lg),
+                // Document Card Visual
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(AppSpacing.xl),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        color.withValues(alpha: 0.12),
+                        AppColors.surfaceMuted,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
+                    border: Border.all(color: color.withValues(alpha: 0.3)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(documentTypeIcon(doc.type), size: 36, color: color),
+                          Text(
+                            Formatters.maskedDocNumber(
+                              doc.docNumber ?? doc.type.sampleNumber,
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'monospace',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: AppColors.ink,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(
+                        doc.issuer ?? doc.type.issuer,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.ink,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Uploaded on ${Formatters.date(doc.uploadedAt)}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.inkFaint,
+                        ),
+                      ),
+                      if (doc.note != null && doc.note!.isNotEmpty) ...[
+                        const SizedBox(height: 6),
+                        Text(
+                          doc.note!,
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            fontStyle: FontStyle.italic,
+                            color: color,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
-                const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.lg),
                 Row(
                   children: [
                     Expanded(
                       child: FilledButton(
                         onPressed: () => Navigator.of(sheetContext).pop(),
-                        child: const Text('Close'),
+                        child: const Text('Close Preview'),
                       ),
                     ),
                   ],
@@ -367,6 +421,125 @@ class DocumentDetailScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildPreviewWidget(CitizenDocument doc, Color color) {
+    final path = doc.filePath;
+    final isPdf = path != null && path.toLowerCase().endsWith('.pdf');
+    final isImage = path != null &&
+        (path.toLowerCase().endsWith('.jpg') ||
+            path.toLowerCase().endsWith('.jpeg') ||
+            path.toLowerCase().endsWith('.png') ||
+            path.toLowerCase().endsWith('.webp'));
+
+    if (path != null && File(path).existsSync()) {
+      if (isImage) {
+        return InkWell(
+          onTap: () => OpenFilex.open(path),
+          child: Image.file(
+            File(path),
+            fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => _buildFallbackPreview(doc, color),
+          ),
+        );
+      } else if (isPdf) {
+        final fileName = path.split(RegExp(r'[/\\]')).last;
+        return InkWell(
+          onTap: () => OpenFilex.open(path),
+          child: Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withValues(alpha: 0.12),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.picture_as_pdf_rounded,
+                    size: 40,
+                    color: Colors.red,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  doc.title,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.ink,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  fileName,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.inkFaint,
+                    fontFamily: 'monospace',
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ElevatedButton.icon(
+                  onPressed: () => OpenFilex.open(path),
+                  icon: const Icon(Icons.open_in_new_rounded, size: 15),
+                  label: const Text('Open PDF in Reader'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 6,
+                    ),
+                    textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    }
+
+    return _buildFallbackPreview(doc, color);
+  }
+
+  Widget _buildFallbackPreview(CitizenDocument doc, Color color) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            documentTypeIcon(doc.type),
+            size: 54,
+            color: color.withValues(alpha: 0.75),
+          ),
+          const SizedBox(height: AppSpacing.sm + 2),
+          Text(
+            doc.title,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+              color: AppColors.ink,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Document preview',
+            style: TextStyle(
+              fontSize: 11.5,
+              color: color.withValues(alpha: 0.8),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

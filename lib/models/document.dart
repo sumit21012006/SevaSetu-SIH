@@ -95,6 +95,8 @@ class CitizenDocument {
     this.docNumber,
     this.issuer,
     this.note,
+    this.filePath,
+    this.verificationBadge,
   });
 
   final String id;
@@ -112,6 +114,8 @@ class CitizenDocument {
   final String? docNumber;
   final String? issuer;
   final String? note;
+  final String? filePath;
+  final String? verificationBadge;
 
   String get title => type.title;
 
@@ -154,6 +158,8 @@ class CitizenDocument {
     DateTime? issuedAt,
     DateTime? uploadedAt,
     String? note,
+    String? filePath,
+    String? verificationBadge,
   }) {
     return CitizenDocument(
       id: id,
@@ -166,6 +172,8 @@ class CitizenDocument {
       docNumber: docNumber ?? this.docNumber,
       issuer: issuer ?? this.issuer,
       note: note ?? this.note,
+      filePath: filePath ?? this.filePath,
+      verificationBadge: verificationBadge ?? this.verificationBadge,
     );
   }
 }

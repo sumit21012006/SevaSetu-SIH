@@ -1,4 +1,6 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../core/app_constants.dart';
 import '../models/document.dart';
@@ -33,16 +35,16 @@ const _options = [
   ),
 ];
 
-/// Runs the simulated upload flow:
-/// pick a source → animated upload progress → document added to vault.
+/// Runs the upload flow:
+/// pick a source → open camera/file picker → animated upload progress → document added to vault.
 ///
 /// Returns the new document, or null if the citizen cancelled.
 Future<CitizenDocument?> showUploadFlow(
   BuildContext context, {
   required String documentTitle,
-  required Future<CitizenDocument> Function(String sourceLabel) onUpload,
+  required Future<CitizenDocument> Function(String sourceLabel, String? filePath) onUpload,
 }) async {
-  final source = await showModalBottomSheet<String>(
+  final optionLabel = await showModalBottomSheet<String>(
     context: context,
     builder: (sheetContext) {
       return SafeArea(
@@ -134,7 +136,36 @@ Future<CitizenDocument?> showUploadFlow(
     },
   );
 
-  if (source == null || !context.mounted) return null;
+  if (optionLabel == null || !context.mounted) return null;
+
+  String? fileName;
+  String? pickedPath;
+  try {
+    if (optionLabel == 'Camera' || optionLabel == 'Scanner') {
+      final picker = ImagePicker();
+      final XFile? photo = await picker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: 85,
+      );
+      if (photo == null) return null; // User cancelled camera
+      fileName = photo.name.isNotEmpty ? photo.name : '$optionLabel Photo';
+      pickedPath = photo.path;
+    } else if (optionLabel == 'Device files') {
+      final result = await FilePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg'],
+      );
+      if (result.isEmpty) return null; // User cancelled picker
+      fileName = result.first.name;
+      pickedPath = result.first.path;
+    }
+  } catch (e) {
+    fileName = '$optionLabel Document';
+  }
+
+  final source = fileName != null ? '$optionLabel ($fileName)' : optionLabel;
+
+  if (!context.mounted) return null;
 
   final doc = await showDialog<CitizenDocument>(
     context: context,
@@ -142,6 +173,7 @@ Future<CitizenDocument?> showUploadFlow(
     builder: (_) => _UploadProgressDialog(
       title: documentTitle,
       source: source,
+      filePath: pickedPath,
       onUpload: onUpload,
     ),
   );
@@ -152,12 +184,14 @@ class _UploadProgressDialog extends StatefulWidget {
   const _UploadProgressDialog({
     required this.title,
     required this.source,
+    this.filePath,
     required this.onUpload,
   });
 
   final String title;
   final String source;
-  final Future<CitizenDocument> Function(String sourceLabel) onUpload;
+  final String? filePath;
+  final Future<CitizenDocument> Function(String sourceLabel, String? filePath) onUpload;
 
   @override
   State<_UploadProgressDialog> createState() => _UploadProgressDialogState();
@@ -187,7 +221,7 @@ class _UploadProgressDialogState extends State<_UploadProgressDialog> {
       if (!mounted) return;
     }
     try {
-      final doc = await widget.onUpload(widget.source);
+      final doc = await widget.onUpload(widget.source, widget.filePath);
       if (!mounted) return;
       setState(() {
         _done = true;

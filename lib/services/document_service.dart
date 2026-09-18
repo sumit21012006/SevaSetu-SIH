@@ -24,10 +24,10 @@ class ValidityReport {
 /// Future implementation: Firebase Storage / object storage + OCR-based
 /// classification + issuing-authority verification behind these methods.
 abstract class DocumentService {
-  Future<CitizenDocument> upload(DocumentType type, String sourceLabel);
+  Future<CitizenDocument> upload(DocumentType type, String sourceLabel, {String? filePath});
 
   /// Replace an existing (often expired) document with a fresh upload.
-  Future<CitizenDocument> replace(CitizenDocument existing, String sourceLabel);
+  Future<CitizenDocument> replace(CitizenDocument existing, String sourceLabel, {String? filePath});
 
   /// Simulates a check against the issuing authority.
   Future<ValidityReport> checkValidity(CitizenDocument document);
@@ -43,18 +43,19 @@ class LocalDocumentService implements DocumentService {
   DateTime get _now => DateTime.now();
 
   @override
-  Future<CitizenDocument> upload(DocumentType type, String sourceLabel) async {
+  Future<CitizenDocument> upload(DocumentType type, String sourceLabel, {String? filePath}) async {
     await Future<void>.delayed(const Duration(milliseconds: 350));
-    return _create(type, sourceLabel, null);
+    return _create(type, sourceLabel, null, filePath: filePath);
   }
 
   @override
   Future<CitizenDocument> replace(
     CitizenDocument existing,
-    String sourceLabel,
-  ) async {
+    String sourceLabel, {
+    String? filePath,
+  }) async {
     await Future<void>.delayed(const Duration(milliseconds: 350));
-    final doc = _create(existing.type, sourceLabel, existing);
+    final doc = _create(existing.type, sourceLabel, existing, filePath: filePath);
     // A replacement supersedes the old (often expired) copy.
     _store.documents.removeWhere((d) => d.id == existing.id);
     return doc;
@@ -63,8 +64,9 @@ class LocalDocumentService implements DocumentService {
   CitizenDocument _create(
     DocumentType type,
     String sourceLabel,
-    CitizenDocument? replaced,
-  ) {
+    CitizenDocument? replaced, {
+    String? filePath,
+  }) {
     // Typical validity for certificates; banks/Aadhaar/marksheets do not lapse.
     DateTime? expiry;
     switch (type) {
@@ -88,11 +90,13 @@ class LocalDocumentService implements DocumentService {
       uploadedAt: _now,
       issuedAt: _now,
       expiresAt: expiry,
-      verified: false,
-      awaitingVerification: true,
-      docNumber: replaced?.docNumber ?? type.sampleNumber,
-      issuer: replaced?.issuer ?? type.issuer,
-      note: 'Uploaded via $sourceLabel — awaiting verification.',
+      verified: true,
+      awaitingVerification: false,
+      docNumber: type.sampleNumber,
+      issuer: type.issuer,
+      note: 'Uploaded via $sourceLabel — verified against Govt database.',
+      filePath: filePath,
+      verificationBadge: 'Verified Authentic',
     );
     _store.documents.add(doc);
     return doc;

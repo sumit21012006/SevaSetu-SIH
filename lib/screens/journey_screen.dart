@@ -76,7 +76,7 @@ class _JourneyTabState extends State<JourneyTab> {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: apps.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
               itemBuilder: (context, i) {
                 final app = apps[i];
                 final selected = app.id == active.id;
