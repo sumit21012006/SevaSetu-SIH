@@ -47,7 +47,7 @@ class AgentTag extends StatelessWidget {
           Icon(_icon, size: compact ? 12 : 14, color: AppColors.aiPurple),
           const SizedBox(width: AppSpacing.xs),
           Text(
-            compact ? agentType.name : agentType.displayName,
+            compact ? agentType.shortName : agentType.displayName,
             style: TextStyle(
               fontSize: compact ? 11 : 12,
               fontWeight: FontWeight.w600,

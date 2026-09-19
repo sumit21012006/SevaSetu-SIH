@@ -11,6 +11,21 @@ enum AgentType {
   final String displayName;
   final String description;
 
+  String get shortName {
+    switch (this) {
+      case AgentType.recommendation:
+        return 'Schemes';
+      case AgentType.eligibility:
+        return 'Eligibility';
+      case AgentType.guidance:
+        return 'Guidance';
+      case AgentType.grSimplifier:
+        return 'Simplify GR';
+      case AgentType.router:
+        return 'Router';
+    }
+  }
+
   static AgentType fromString(String? val) {
     if (val == null) return AgentType.recommendation;
     switch (val.toLowerCase().trim()) {

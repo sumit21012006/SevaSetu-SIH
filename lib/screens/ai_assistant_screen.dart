@@ -456,10 +456,12 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Top metadata row
-          Row(
+          Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.xs,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              AgentTag(agentType: result.agentType),
-              const SizedBox(width: AppSpacing.sm),
+              AgentTag(agentType: result.agentType, compact: true),
               if (result.sources.isNotEmpty) SourceChips(sources: result.sources),
             ],
           ),
@@ -542,7 +544,9 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                         style: const TextStyle(fontSize: 12, height: 1.3, color: AppColors.inkSoft),
                       ),
                       const SizedBox(height: AppSpacing.sm),
-                      Row(
+                      Wrap(
+                        spacing: AppSpacing.sm,
+                        runSpacing: AppSpacing.xs,
                         children: [
                           OutlinedButton(
                             style: OutlinedButton.styleFrom(
@@ -555,7 +559,6 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                             onPressed: () => _handleAction('view_service:${s!.id}'),
                             child: const Text('View Scheme', style: TextStyle(fontSize: 11)),
                           ),
-                          const SizedBox(width: AppSpacing.sm),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               visualDensity: VisualDensity.compact,
