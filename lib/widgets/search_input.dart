@@ -36,7 +36,7 @@ class AskField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fill = primary ? Colors.white : AppColors.surface;
+    final fill = primary ? Colors.white.withValues(alpha: 0.15) : AppColors.surface;
     final borderColor = primary ? Colors.white24 : AppColors.hairline;
     return Container(
       decoration: BoxDecoration(
