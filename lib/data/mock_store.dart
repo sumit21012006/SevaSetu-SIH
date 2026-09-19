@@ -68,15 +68,15 @@ class AppDataStore {
         statusDetail: 'Documents 4 of 6 ready — 2 need attention.',
       ),
       ServiceApplication(
-        id: 'app-emp-1',
-        serviceId: 'svc-employment',
-        serviceName: 'Employment Assistance',
-        department: 'Employment & Self-Employment Dept.',
-        startedOn: days(30),
-        submittedOn: days(20),
+        id: 'app-pass-1',
+        serviceId: 'svc-passport',
+        serviceName: 'Passport Application',
+        department: 'Ministry of External Affairs',
+        startedOn: days(14),
+        submittedOn: days(4),
         currentPhase: ApplicationPhase.underVerification,
-        applicationNumber: 'MSDE/2026/88241',
-        statusDetail: 'Verification by the Employment Exchange in progress.',
+        applicationNumber: 'ARN-26-0094812',
+        statusDetail: 'Biometrics recorded at Pune PSK. Police verification in progress.',
       ),
     ];
   }
@@ -120,11 +120,11 @@ class AppDataStore {
       AppNotification(
         id: 'notif-4',
         kind: NotificationKind.application,
-        title: 'Application under verification',
+        title: 'Passport Application update',
         body:
-            'Your Employment Assistance application (MSDE/2026/88241) is being verified.',
+            'Your Passport application (ARN-26-0094812) has been forwarded for Police Verification.',
         at: ago(const Duration(days: 2)),
-        serviceId: 'svc-employment',
+        serviceId: 'svc-passport',
       ),
       AppNotification(
         id: 'notif-5',

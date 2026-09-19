@@ -122,10 +122,16 @@ IconData serviceCategoryIcon(ServiceCategory category) {
   switch (category) {
     case ServiceCategory.education:
       return Icons.school_rounded;
-    case ServiceCategory.housing:
-      return Icons.home_rounded;
+    case ServiceCategory.women:
+      return Icons.volunteer_activism_rounded;
+    case ServiceCategory.identity:
+      return Icons.badge_rounded;
     case ServiceCategory.agriculture:
       return Icons.agriculture_rounded;
+    case ServiceCategory.financial:
+      return Icons.account_balance_rounded;
+    case ServiceCategory.housing:
+      return Icons.home_rounded;
     case ServiceCategory.employment:
       return Icons.work_history_rounded;
     case ServiceCategory.other:
@@ -138,10 +144,16 @@ Color serviceCategoryColor(ServiceCategory category) {
   switch (category) {
     case ServiceCategory.education:
       return AppColors.primary;
-    case ServiceCategory.housing:
-      return AppColors.secondary;
+    case ServiceCategory.women:
+      return const Color(0xFFD81B60);
+    case ServiceCategory.identity:
+      return const Color(0xFFE65100);
     case ServiceCategory.agriculture:
       return const Color(0xFF2E7D32);
+    case ServiceCategory.financial:
+      return const Color(0xFF1565C0);
+    case ServiceCategory.housing:
+      return AppColors.secondary;
     case ServiceCategory.employment:
       return AppColors.aiPurple;
     case ServiceCategory.other:

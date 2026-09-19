@@ -1,0 +1,59 @@
+{
+  "sources": [
+    {
+      "id": "src-ladki-bahin-gr",
+      "title": "Mukhyamantri Majhi Ladki Bahin Yojana Government Resolution",
+      "authority": "Women & Child Development Department, Government of Maharashtra",
+      "documentNumber": "GR No. WCD-2024/CR-142/Desk-04",
+      "issueDate": "2024-06-28",
+      "url": "https://ladakibahin.maharashtra.gov.in",
+      "category": "women",
+      "serviceId": "svc-ladki-bahin",
+      "summary": "Official GR instituting monthly DBT of ₹1,500 for eligible women aged 21-65 residing in Maharashtra with annual household income <= ₹2.5 lakh."
+    },
+    {
+      "id": "src-pms-mahadbt",
+      "title": "Post-Matric Scholarship Scheme Guidelines (MahaDBT)",
+      "authority": "Higher & Technical Education Department, Government of Maharashtra",
+      "documentNumber": "GR No. EBC-2023/PK-118/Shikshan-2",
+      "issueDate": "2023-07-15",
+      "url": "https://mahadbt.maharashtra.gov.in",
+      "category": "education",
+      "serviceId": "svc-pms",
+      "summary": "Reimbursement of tuition fees, exam fees, and maintenance allowances for SC/ST/OBC/SBC/VJNT/EWS students pursuing post-matriculation studies."
+    },
+    {
+      "id": "src-pm-kisan",
+      "title": "Pradhan Mantri Kisan Samman Nidhi & Namo Shetkari Guidelines",
+      "authority": "Ministry of Agriculture & Farmers Welfare, Govt of India & Agriculture Dept, GoM",
+      "documentNumber": "GoI/MoA/PM-KISAN/2019-24 & GoM GR NSMN-2023/CR-56",
+      "issueDate": "2023-05-30",
+      "url": "https://pmkisan.gov.in",
+      "category": "agriculture",
+      "serviceId": "svc-farmer",
+      "summary": "Annual financial support of ₹12,000 in 3 installments for landholding farmer families in Maharashtra with Aadhaar e-KYC."
+    },
+    {
+      "id": "src-passport-seva",
+      "title": "Passport Rules 1980 & Citizen Charter (Passport Seva)",
+      "authority": "Consular, Passport & Visa Division, Ministry of External Affairs",
+      "documentNumber": "MEA/CPV/PassportRules/1980-Amended-2023",
+      "issueDate": "2023-01-10",
+      "url": "https://www.passportindia.gov.in",
+      "category": "identity",
+      "serviceId": "svc-passport",
+      "summary": "Guidelines for issuance of Ordinary Fresh and Re-issue Passports under Normal and Tatkaal quotas, list of acceptable documents for address, identity and Non-ECR."
+    },
+    {
+      "id": "src-pmjdy-rbi",
+      "title": "Pradhan Mantri Jan-Dhan Yojana & BSBDA Master Circular",
+      "authority": "Reserve Bank of India & Department of Financial Services, Ministry of Finance",
+      "documentNumber": "RBI/2019-20/DBR.Leg.BC.No.86/09.07.005/2019-20",
+      "issueDate": "2019-06-10",
+      "url": "https://pmjdy.gov.in",
+      "category": "financial",
+      "serviceId": "svc-bank-account",
+      "summary": "Zero-balance Basic Savings Bank Deposit Account guidelines, Rupay debit card with ₹2L accidental insurance, and simplified KYC."
+    }
+  ]
+}

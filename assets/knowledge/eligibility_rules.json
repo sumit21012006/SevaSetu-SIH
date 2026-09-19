@@ -1,0 +1,186 @@
+{
+  "rules": {
+    "svc-pms": [
+      {
+        "id": "pms-rule-student",
+        "description": "Currently enrolled student in post-matric studies",
+        "field": "occupation",
+        "operator": "equals",
+        "value": "student",
+        "weight": 25,
+        "citation": "MahaDBT Post-Matric Guidelines Clause 2.1"
+      },
+      {
+        "id": "pms-rule-income",
+        "description": "Annual family income must be under ₹8.00 lakh",
+        "field": "annualIncomeLakhs",
+        "operator": "lte",
+        "value": 8.0,
+        "weight": 25,
+        "citation": "GR No. EBC-2023/PK-118 Clause 4"
+      },
+      {
+        "id": "pms-rule-caste",
+        "description": "Belongs to reserved category (OBC, SC, ST, EWS)",
+        "field": "casteCategory",
+        "operator": "not_equals",
+        "value": "general",
+        "weight": 30,
+        "citation": "Social Justice & Special Assistance Dept Notification"
+      },
+      {
+        "id": "pms-rule-domicile",
+        "description": "Valid Maharashtra Domicile document in vault",
+        "field": "hasDocument:domicile",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 20,
+        "citation": "MahaDBT Domicile Mandate"
+      }
+    ],
+    "svc-ladki-bahin": [
+      {
+        "id": "lb-rule-age",
+        "description": "Applicant age must be between 21 and 65 years",
+        "field": "age",
+        "operator": "range",
+        "min": 21,
+        "max": 65,
+        "weight": 30,
+        "citation": "GR WCD-2024/CR-142 Clause 3(1)"
+      },
+      {
+        "id": "lb-rule-income",
+        "description": "Annual family income must not exceed ₹2.50 lakh",
+        "field": "annualIncomeLakhs",
+        "operator": "lte",
+        "value": 2.5,
+        "weight": 25,
+        "citation": "GR WCD-2024/CR-142 Clause 3(2)"
+      },
+      {
+        "id": "lb-rule-domicile",
+        "description": "Valid Maharashtra Domicile or Ration Card in vault",
+        "field": "hasDocument:domicile",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 30,
+        "citation": "GR WCD-2024/CR-142 Clause 4(A)"
+      },
+      {
+        "id": "lb-rule-bank",
+        "description": "Aadhaar-linked active bank account in vault",
+        "field": "hasDocument:bankPassbook",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 15,
+        "citation": "GR WCD-2024/CR-142 Clause 5(B)"
+      }
+    ],
+    "svc-passport": [
+      {
+        "id": "ps-rule-age",
+        "description": "Adult passport applicant must be 18 years or older",
+        "field": "age",
+        "operator": "gte",
+        "value": 18,
+        "weight": 20,
+        "citation": "Passport Rules 1980 Schedule III"
+      },
+      {
+        "id": "ps-rule-address",
+        "description": "Valid address proof or domicile in vault",
+        "field": "hasAnyDocument:addressProof,domicile",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 20,
+        "citation": "Passport Seva Table 1 Acceptable Address Documents"
+      },
+      {
+        "id": "ps-rule-nonecr",
+        "description": "Class 10 or higher qualification for Non-ECR status",
+        "field": "education",
+        "operator": "not_equals",
+        "value": "secondary",
+        "weight": 20,
+        "citation": "Emigration Act 1983 Non-ECR Category"
+      },
+      {
+        "id": "ps-rule-aadhaar",
+        "description": "Valid Aadhaar card in vault for fast verification",
+        "field": "hasDocument:aadhaar",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 40,
+        "citation": "MEA Advisory on Aadhaar for Passport"
+      }
+    ],
+    "svc-farmer": [
+      {
+        "id": "fm-rule-occupation",
+        "description": "Occupation reflects farmer or agricultural cultivator",
+        "field": "occupation",
+        "operator": "equals",
+        "value": "farmer",
+        "weight": 35,
+        "citation": "PM-KISAN Operational Guidelines Clause 2"
+      },
+      {
+        "id": "fm-rule-land",
+        "description": "Valid 7/12 land record in vault",
+        "field": "hasDocument:landRecord",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 35,
+        "citation": "Revenue & Forest Dept Satbara Verification Norm"
+      },
+      {
+        "id": "fm-rule-bank",
+        "description": "Aadhaar-seeded bank account for DBT in vault",
+        "field": "hasDocument:bankPassbook",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 15,
+        "citation": "PM-KISAN DBT Mandate"
+      },
+      {
+        "id": "fm-rule-age",
+        "description": "Applicant must be at least 18 years old",
+        "field": "age",
+        "operator": "gte",
+        "value": 18,
+        "weight": 15,
+        "citation": "PM-KISAN Family Unit Definition"
+      }
+    ],
+    "svc-bank-account": [
+      {
+        "id": "ba-rule-aadhaar",
+        "description": "Aadhaar card available for paperless e-KYC",
+        "field": "hasDocument:aadhaar",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 50,
+        "citation": "RBI Master Direction - Know Your Customer (KYC)"
+      },
+      {
+        "id": "ba-rule-photo",
+        "description": "Passport-sized photograph available",
+        "field": "hasDocument:photograph",
+        "operator": "is_valid",
+        "value": true,
+        "weight": 25,
+        "citation": "PMJDY Account Opening Standards"
+      },
+      {
+        "id": "ba-rule-age",
+        "description": "Age 10 years or above (independent minor or adult)",
+        "field": "age",
+        "operator": "gte",
+        "value": 10,
+        "weight": 25,
+        "citation": "RBI Guidelines on Savings Accounts for Minors"
+      }
+    ]
+  }
+}

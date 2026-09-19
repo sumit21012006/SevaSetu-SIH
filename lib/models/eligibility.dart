@@ -4,11 +4,40 @@ library;
 
 import 'service.dart';
 
+enum EligibilityStatus {
+  met,
+  notMet,
+  unknown;
+
+  String get label {
+    switch (this) {
+      case EligibilityStatus.met:
+        return 'Met';
+      case EligibilityStatus.notMet:
+        return 'Not Met';
+      case EligibilityStatus.unknown:
+        return 'Requires Verification';
+    }
+  }
+}
+
 class EligibilityRuleResult {
-  const EligibilityRuleResult(this.rule, this.passed);
+  const EligibilityRuleResult(
+    this.rule,
+    this.passed, {
+    this.status,
+    this.reason,
+    this.citation,
+  });
 
   final EligibilityRule rule;
   final bool passed;
+  final EligibilityStatus? status;
+  final String? reason;
+  final String? citation;
+
+  EligibilityStatus get effectiveStatus =>
+      status ?? (passed ? EligibilityStatus.met : EligibilityStatus.notMet);
 }
 
 class EligibilityReport {

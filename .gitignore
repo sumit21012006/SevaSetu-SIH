@@ -49,3 +49,8 @@ android/.gradle/
 # Local tooling
 .freebuff/
 
+# Environment files
+.env
+.env.*
+!.env.example
+

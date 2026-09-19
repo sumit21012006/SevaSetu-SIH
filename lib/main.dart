@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'core/app_constants.dart';
 import 'navigation/app_shell.dart';
@@ -8,8 +9,13 @@ import 'state/app_scope.dart';
 import 'state/app_state.dart';
 import 'theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (_) {
+    // Graceful fallback if .env is missing or unreadable
+  }
   runApp(const SevaSetuApp());
 }
 

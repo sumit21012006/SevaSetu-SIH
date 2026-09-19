@@ -1,0 +1,49 @@
+{
+  "resolutions": [
+    {
+      "id": "gr-ladki-bahin-2024",
+      "filename": "ladki_bahin_gr_2024.txt",
+      "serviceId": "svc-ladki-bahin",
+      "title": "Mukhyamantri Majhi Ladki Bahin Yojana Scheme Implementation Framework",
+      "grNumber": "WCD-2024/CR-142/Desk-04",
+      "department": "Women and Child Development Department, Maharashtra",
+      "issueDate": "2024-06-28"
+    },
+    {
+      "id": "gr-pms-mahadbt-2023",
+      "filename": "pms_mahadbt_gr_2023.txt",
+      "serviceId": "svc-pms",
+      "title": "Post-Matric Scholarship Rules and Free-ship Norms",
+      "grNumber": "EBC-2023/PK-118/Shikshan-2",
+      "department": "Higher and Technical Education Department, Maharashtra",
+      "issueDate": "2023-07-15"
+    },
+    {
+      "id": "gr-pm-kisan-guidelines",
+      "filename": "pm_kisan_guidelines.txt",
+      "serviceId": "svc-farmer",
+      "title": "Pradhan Mantri Kisan Samman Nidhi & Namo Shetkari Mahasanman Nidhi",
+      "grNumber": "NSMN-2023/CR-56",
+      "department": "Agriculture Department, Maharashtra",
+      "issueDate": "2023-05-30"
+    },
+    {
+      "id": "gr-passport-tatkaal",
+      "filename": "passport_tatkaal_rules.txt",
+      "serviceId": "svc-passport",
+      "title": "Passport Rules & Tatkaal Scheme Documentation Checklist",
+      "grNumber": "MEA-CPV-2023-T1",
+      "department": "Consular, Passport and Visa Division, MEA",
+      "issueDate": "2023-01-10"
+    },
+    {
+      "id": "gr-bsbda-rbi",
+      "filename": "bsbda_rbi_guidelines.txt",
+      "serviceId": "svc-bank-account",
+      "title": "Basic Savings Bank Deposit Account (BSBDA) & PMJDY Norms",
+      "grNumber": "RBI/2019-20/86",
+      "department": "Department of Financial Services, Ministry of Finance",
+      "issueDate": "2019-06-10"
+    }
+  ]
+}

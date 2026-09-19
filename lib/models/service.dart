@@ -29,8 +29,11 @@ class EligibilityRule {
 
 enum ServiceCategory {
   education('Education', 'Post-Matric Scholarship', 'scholarships.gov.in'),
+  women('Women & Child', 'Ladki Bahin Yojana', 'ladakibahin.maharashtra.gov.in'),
+  identity('Identity & Travel', 'Passport Seva', 'passportindia.gov.in'),
+  agriculture('Agriculture', 'PM-KISAN & Namo Shetkari', 'pmkisan.gov.in'),
+  financial('Banking & Finance', 'Jan Dhan Bank Account', 'pmjdy.gov.in'),
   housing('Housing', 'PMAY', 'pmay-urban.gov.in'),
-  agriculture('Agriculture', 'Farmer Support', 'mahadbt.maharashtra.gov.in'),
   employment('Employment', 'Employment Assistance', 'rojgar.mahaswayam.gov.in'),
   other('Other Services', '', '');
 

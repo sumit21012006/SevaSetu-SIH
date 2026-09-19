@@ -17,11 +17,13 @@ import '../theme/app_theme.dart';
 import '../widgets/service_widgets.dart';
 import '../widgets/voice_input.dart';
 import '../widgets/zip_widgets.dart';
+import 'ai_assistant_screen.dart';
 import 'notifications_screen.dart';
 import 'profile_screen.dart';
 import 'readiness_screen.dart';
 import 'service_details_screen.dart';
 import 'tab_top.dart';
+import '../services/ai/models/agent_type.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -146,9 +148,20 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   void _submitQuery(String query) {
-    final state = AppScope.of(context);
     final trimmed = query.trim();
-    state.openServicesTab(trimmed);
+    if (trimmed.isEmpty) {
+      final state = AppScope.of(context);
+      state.openServicesTab();
+      return;
+    }
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => AIAssistantScreen(
+          initialQuery: trimmed,
+          initialAgent: AgentType.recommendation,
+        ),
+      ),
+    );
   }
 
   Future<void> _onVoice() async {

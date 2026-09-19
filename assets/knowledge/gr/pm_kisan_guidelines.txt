@@ -1,0 +1,29 @@
+MINISTRY OF AGRICULTURE & FARMERS WELFARE / GOVT OF MAHARASHTRA
+Pradhan Mantri Kisan Samman Nidhi & Namo Shetkari Mahasanman Nidhi
+Operational Guidelines & GR NSMN-2023/CR-56
+Date: 30th May 2023
+
+SUBJECT: Operational guidelines for direct financial assistance to farmer cultivator families.
+
+OVERVIEW:
+Under PM-KISAN, the Central Government provides financial benefit of Rs. 6,000 per year in 3 equal four-monthly instalments of Rs. 2,000 each.
+Under Maharashtra Namo Shetkari Mahasanman Nidhi, an additional Rs. 6,000 per year is contributed by the State Government, making total annual benefit Rs. 12,000 per eligible farmer family.
+
+ELIGIBILITY NORMS:
+1. Small and marginal farmer families who hold cultivable land in their names as per land records of the respective State/UT.
+2. The definition of family includes husband, wife, and minor children.
+3. Land ownership records (Satbara 7/12 extract and 8-A holding) must be clearly mutated in the land registry.
+
+EXCLUSIONS:
+1. All institutional land holders.
+2. Farmer families where one or more member belongs to:
+   - Former and present holders of constitutional posts.
+   - Former and present Ministers, MPs, MLAs, Mayors, Chairpersons of District Panchayats.
+   - All serving or retired officers/employees of Central/State Govt Ministries, Departments, Public Sector Undertakings.
+   - All persons who paid Income Tax in the last assessment year.
+   - Professionals like Doctors, Engineers, Lawyers, Chartered Accountants, Architects registered with professional bodies.
+
+MANDATORY PROCEDURES:
+1. Aadhaar-based OTP or biometric e-KYC on the PM-KISAN portal.
+2. Linking Aadhaar with bank account and active NPCI mapper configuration.
+3. Land verification by Revenue Patwari / Talathi.

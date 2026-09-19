@@ -18,6 +18,7 @@ import '../services/eligibility_service.dart';
 import '../services/notification_service.dart';
 import '../services/service_discovery_service.dart';
 import '../services/zip_service.dart';
+import '../services/ai/orchestrator/agent_orchestrator.dart';
 import '../utils/l10n.dart';
 
 /// Bottom-navigation tab indices used across the app.
@@ -130,6 +131,7 @@ class AppState extends ChangeNotifier {
   UserProfile get profile => _auth.profile;
   List<CitizenDocument> get vaultDocuments =>
       List.unmodifiable(_store.documents);
+  List<CitizenDocument> get vault => vaultDocuments;
   List<GovService> get services => List.unmodifiable(_store.services);
   List<ServiceApplication> get applications => _applications.list();
 
@@ -297,5 +299,14 @@ class AppState extends ChangeNotifier {
       service: service,
       summary: readinessFor(service),
     );
+  }
+
+  AgentOrchestrator? _orchestrator;
+  AgentOrchestrator get orchestrator => _orchestrator ??= AgentOrchestrator(catalog: services);
+
+  @override
+  void dispose() {
+    _orchestrator?.dispose();
+    super.dispose();
   }
 }

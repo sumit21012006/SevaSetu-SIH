@@ -79,7 +79,26 @@ enum DocStatus {
   expiringSoon,
   expired,
   invalid,
-  missing,
+  missing;
+
+  String get label {
+    switch (this) {
+      case DocStatus.verified:
+        return 'Verified';
+      case DocStatus.available:
+        return 'Available';
+      case DocStatus.verificationRequired:
+        return 'Verification Required';
+      case DocStatus.expiringSoon:
+        return 'Expiring Soon';
+      case DocStatus.expired:
+        return 'Expired';
+      case DocStatus.invalid:
+        return 'Invalid';
+      case DocStatus.missing:
+        return 'Missing';
+    }
+  }
 }
 
 /// One document inside the citizen's Document Vault.

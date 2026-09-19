@@ -9,6 +9,7 @@ import '../theme/app_colors.dart';
 import '../widgets/chat_widgets.dart';
 import '../widgets/voice_input.dart';
 import '../widgets/zip_widgets.dart';
+import 'ai_assistant_screen.dart';
 import 'doc_actions.dart';
 import 'readiness_screen.dart';
 import 'service_details_screen.dart';
@@ -139,6 +140,19 @@ class _AssistantScreenState extends State<AssistantScreen> {
           ],
         ),
         actions: [
+          IconButton(
+            tooltip: 'Switch to Multi-Agent AI (Groq)',
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute<void>(
+                  builder: (_) => AIAssistantScreen(
+                    initialContextServiceId: _contextServiceId,
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(Icons.hub_outlined, color: AppColors.aiPurple),
+          ),
           IconButton(
             tooltip: 'Start new chat',
             onPressed: () {
